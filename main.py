@@ -42,10 +42,15 @@ def main():
         tokenizer = load_tokenizer(model_name)
         train_sequences = convert_to_tensor(tokenize_sequences(tokenizer, train_sequences), device)
         test_sequences = convert_to_tensor(tokenize_sequences(tokenizer, test_sequences), device)
-        train_percentages = torch.tensor(train_percentages, device=device)
-        test_percentages = torch.tensor(test_percentages, device=device)
+        train_percentages = torch.tensor(train_percentages, dtype=torch.float32).unsqueeze(1)
+        test_percentages = torch.tensor(test_percentages, dtype=torch.float32).unsqueeze(1)
     except Exception as e:
         raise RuntimeError(f"Error during tokenization or tensor conversion: {e}")
+    
+    # Ensure all sequences are strings (this should now be the case)
+    assert all(isinstance(seq, str) for seq in train_sequences), "All train sequences must be strings."
+    assert all(isinstance(seq, str) for seq in test_sequences), "All test sequences must be strings."
+
 
     # Hyperparameter tuning loop
     for idx, params in enumerate(hyperparameter_grid()):
