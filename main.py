@@ -10,18 +10,16 @@ import wandb
 
 # Initialize WandB project
 wandb.init(project='Evo_Finetuning')
-
 def main():
     model_name = 'togethercomputer/evo-1-131k-base'
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     # Load the training and test data
     try:
-        train_sequences = pd.read_csv('train_sequences.csv').values.tolist()
-        train_percentages = pd.read_csv('train_percentages.csv').values.tolist()
-
-        test_sequences = pd.read_csv('test_sequences.csv').values.tolist()
-        test_percentages = pd.read_csv('test_percentages.csv').values.tolist()
+        train_sequences = pd.read_csv('train_sequences.csv')['train_seq'].tolist()
+        test_sequences = pd.read_csv('test_sequences.csv')['test_seq'].tolist()
+        train_percentages = pd.read_csv('train_percentages.csv')['train_perc'].tolist()
+        test_percentages = pd.read_csv('test_percentages.csv')['test_perc'].tolist()
     except FileNotFoundError as e:
         raise FileNotFoundError(f"Data file not found: {e.filename}. Ensure that the CSV files are in the correct directory.")
     except Exception as e:
