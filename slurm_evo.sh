@@ -4,7 +4,7 @@
 #SBATCH --error=job_logs/error_%A_%a.txt  # Standard error file
 #SBATCH --time=01:00:00  # Time limit in D-HH:MM:SS, set to 1 hour per job
 #SBATCH --partition=gpu-64g  # Partition name for the gpu-64g
-#SBATCH --mem=32G # Request 63GB of memory
+#SBATCH --mem=54G # Request 63GB of memory
 #SBATCH --mail-type=END  # Notifications for job done
 #SBATCH --array=1  # Array job, 864 jobs in total, limit to 25 concurrent jobs
 
