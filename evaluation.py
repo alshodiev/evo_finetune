@@ -1,4 +1,5 @@
 import torch
+import wandb
 
 def evaluate_model(model, test_data, device='cuda'):
     model.eval()
@@ -10,4 +11,7 @@ def evaluate_model(model, test_data, device='cuda'):
         predictions = outputs.logits.squeeze()
 
     predicted_y = predictions.cpu().numpy()
+
+    wandb.log({"predictions": wandb.Histogram(predicted_y)})
+
     return predicted_y
