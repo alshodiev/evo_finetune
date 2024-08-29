@@ -36,7 +36,7 @@ def tokenize_sequences(tokenizer, sequences, max_length=91):
         return tokenizer(sequences, return_tensors='pt', padding=True, truncation=True, max_length=max_length)
     except Exception as e:
         raise RuntimeError(f"Tokenization failed. Error: {e}")
-
+'''
 def convert_to_tensor(data, dtype=torch.float32):
     # Ensure data is convertible to a tensor
     try:
@@ -45,3 +45,5 @@ def convert_to_tensor(data, dtype=torch.float32):
         raise ValueError(f"Failed to convert data to tensor. Data type: {type(data)}, Error: {e}")
 
     return tensor
+'''
+

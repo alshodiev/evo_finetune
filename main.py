@@ -1,5 +1,5 @@
 import torch
-from tokenization import load_tokenizer, tokenize_sequences, convert_to_tensor
+from tokenization import load_tokenizer, tokenize_sequences
 from model import load_model, setup_optimizer
 from train import train_model
 from evaluation import evaluate_model
@@ -10,6 +10,7 @@ import wandb
 
 # Initialize WandB project
 wandb.init(project='Evo_Finetuning')
+
 def main():
     model_name = 'togethercomputer/evo-1-131k-base'
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -38,17 +39,19 @@ def main():
     # Tokenize sequences and convert to tensors
     try:
         tokenizer = load_tokenizer(model_name)
-        train_sequences = convert_to_tensor(tokenize_sequences(tokenizer, train_sequences), device)
-        test_sequences = convert_to_tensor(tokenize_sequences(tokenizer, test_sequences), device)
-        train_percentages = torch.tensor(train_percentages, dtype=torch.float32).unsqueeze(1)
-        test_percentages = torch.tensor(test_percentages, dtype=torch.float32).unsqueeze(1)
+        train_encodings = tokenize_sequences(tokenizer, train_sequences)
+        test_encodings = tokenize_sequences(tokenizer, test_sequences)
+
+        # Extract input_ids from the encodings
+        train_sequences = train_encodings['input_ids'].to(device)
+        test_sequences = test_encodings['input_ids'].to(device)
+
+        # Convert percentages to tensors
+        train_percentages = torch.tensor(train_percentages, dtype=torch.float32).unsqueeze(1).to(device)
+        test_percentages = torch.tensor(test_percentages, dtype=torch.float32).unsqueeze(1).to(device)
+        
     except Exception as e:
         raise RuntimeError(f"Error during tokenization or tensor conversion: {e}")
-    
-    # Ensure all sequences are strings (this should now be the case)
-    assert all(isinstance(seq, str) for seq in train_sequences), "All train sequences must be strings."
-    assert all(isinstance(seq, str) for seq in test_sequences), "All test sequences must be strings."
-
 
     # Hyperparameter tuning loop
     for idx, params in enumerate(hyperparameter_grid()):

@@ -14,15 +14,15 @@ def train_model(model, optimizer, train_sequences, train_percentages, num_epochs
             batch_sequences = train_sequences[i:i+batch_size]
             batch_labels = train_percentages[i:i+batch_size]
 
-            input_ids = torch.tensor(batch_sequences, dtype=torch.long).to(device)
-            labels = torch.tensor(batch_labels, dtype=torch.float32).unsqueeze(1).to(device)
+            # No need to convert batch_sequences and batch_labels to tensors again as they are already tensors
+            input_ids = batch_sequences.to(device)
+            labels = batch_labels.to(device)
 
             with autocast():
                 outputs = model(input_ids, labels=labels)
                 loss = outputs.loss
 
             scaler.scale(loss).backward()
-
             scaler.step(optimizer)
             scaler.update()
             optimizer.zero_grad()
