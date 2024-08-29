@@ -3,7 +3,7 @@ from tokenization import load_tokenizer, tokenize_sequences, convert_to_tensor
 from model import load_model, setup_optimizer
 from train import train_model
 from evaluation import evaluate_model
-from hyperparameter_tuning import hyperparameter_grid, get_optimizer
+from hyperparameter_tuning import hyperparameter_grid
 import pandas as pd
 import torch.optim as optim
 import wandb
@@ -20,6 +20,14 @@ def main():
 
     test_sequences = pd.read_csv('test_sequences.csv').values.tolist()
     test_percentages = pd.read_csv('test_percentages.csv').values.tolist()
+
+    # Tokenize sequences and convert to tensors
+    tokenizer = load_tokenizer(model_name)
+    train_sequences = convert_to_tensor(tokenize_sequences(tokenizer, train_sequences), device)
+    test_sequences = convert_to_tensor(tokenize_sequences(tokenizer, test_sequences), device)
+    train_percentages = torch.tensor(train_percentages, device=device)
+    test_percentages = torch.tensor(test_percentages, device=device)
+
 
     for idx, params in enumerate(hyperparameter_grid()):
         print(f"Training with params: {params}")
