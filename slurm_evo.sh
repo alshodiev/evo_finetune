@@ -21,7 +21,7 @@ export WANDB_API_KEY=ff9c98ae599240e81f8e14040bddbfd653c28887
 module load cuda/11.8
 module load python/3.8  # Example, adjust to your environment
 
-cd /home/ubuntu/evo
+cd /home/ubuntu/evo-finutune
 
 # Run your Python script
 srun python3 main.py --array_task_id=$SLURM_ARRAY_TASK_ID
