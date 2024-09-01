@@ -60,6 +60,8 @@ def main():
         try:
             print('Model Name:', model_name)
             model = load_model(model_name, device=device)
+            print("Model Parameters:", model.parameters())
+            print(params['learning_rate'])
             optimizer = optim.Adam(model.parameters(), lr=params['learning_rate'])
         except Exception as e:
             raise RuntimeError(f"Error initializing model or optimizer: {e}")

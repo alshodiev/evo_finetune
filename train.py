@@ -4,7 +4,7 @@ import wandb
 from torch.nn import MultiheadAttention as MHA
 
 
-def train_model(model, optimizer, train_sequences, train_percentages, num_epochs=1, batch_size=2, device='cuda'):
+def train_model(model, optimizer, train_sequences, train_percentages, num_epochs, batch_size, device='cuda'):
     scaler = GradScaler()
     model.train()
 
