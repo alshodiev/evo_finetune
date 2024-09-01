@@ -1,4 +1,5 @@
 from itertools import product
+from torch.nn import MultiheadAttention as MHA
 
 def hyperparameter_grid():
     param_grid = {
