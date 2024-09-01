@@ -1,5 +1,6 @@
 from transformers import AutoTokenizer
 import torch
+from torch.nn import MultiheadAttention as MHA
 
 def load_tokenizer(model_name):
     try:

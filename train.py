@@ -1,6 +1,7 @@
 import torch
 from torch.cuda.amp import autocast, GradScaler
 import wandb
+from torch.nn import MultiheadAttention as MHA
 
 def train_model(model, optimizer, train_sequences, train_percentages, num_epochs=1, batch_size=2, device='cuda'):
     scaler = GradScaler()
