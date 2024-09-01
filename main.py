@@ -58,7 +58,7 @@ def main():
     for idx, params in enumerate(hyperparameter_grid()):
         print(f"Training with params: {params}")
         try:
-            print('Model Name:'model_name)
+            print('Model Name:', model_name)
             model = load_model(model_name, device=device)
             optimizer = optim.Adam(model.parameters(), lr=params['learning_rate'])
         except Exception as e:
