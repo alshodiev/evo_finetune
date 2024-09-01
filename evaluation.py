@@ -1,6 +1,6 @@
 import torch
 import wandb
-from torch.nn import MultiheadAttention as MHA
+from flash_attn.modules.mha import MHA
 
 def evaluate_model(model, test_data, device='cuda'):
     model.eval()

@@ -1,5 +1,5 @@
 from itertools import product
-from torch.nn import MultiheadAttention as MHA
+from flash_attn.modules.mha import MHA
 
 def hyperparameter_grid():
     param_grid = {

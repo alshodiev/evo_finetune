@@ -1,10 +1,10 @@
 import torch
+from flash_attn.modules.mha import MHA
 from tokenization import load_tokenizer, tokenize_sequences
 from model import load_model, setup_optimizer
 from train import train_model
 from evaluation import evaluate_model
 from hyperparameter_tuning import hyperparameter_grid
-from torch.nn import MultiheadAttention as MHA
 import pandas as pd
 import torch.optim as optim
 import wandb
