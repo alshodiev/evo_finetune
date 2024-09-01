@@ -1,5 +1,6 @@
 from transformers import AutoConfig, AutoModelForCausalLM, AdamW
 import torch
+from torch.nn import MultiheadAttention as MHA
 
 def load_model(model_name, revision="1.1_fix", device='cuda'):
     model_config = AutoConfig.from_pretrained(model_name, trust_remote_code=True, revision=revision)
