@@ -8,6 +8,7 @@ from hyperparameter_tuning import hyperparameter_grid
 import pandas as pd
 import torch.optim as optim
 import wandb
+from positional_embeddings import swap_mha_rope
 
 # Initialize WandB project
 wandb.init(project='Evo_Finetuning')

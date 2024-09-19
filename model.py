@@ -1,6 +1,7 @@
 from transformers import AutoConfig, AutoModelForCausalLM, AdamW
 import torch
 from flash_attn.modules.mha import MHA
+from positional_embeddings import swap_mha_rope
 
 def load_model(model_name, revision="1.1_fix", device='cuda'):
     model_config = AutoConfig.from_pretrained(model_name, trust_remote_code=True, revision=revision)

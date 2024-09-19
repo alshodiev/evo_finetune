@@ -2,6 +2,7 @@ import torch
 from torch.cuda.amp import autocast, GradScaler
 import wandb
 from flash_attn.modules.mha import MHA
+from positional_embeddings import swap_mha_rope
 
 
 def train_model(model, optimizer, train_sequences, train_percentages, num_epochs, batch_size, device='cuda'):
