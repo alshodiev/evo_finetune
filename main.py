@@ -1,20 +1,18 @@
 import torch
-from flash_attn.modules.mha import MHA
 from tokenization import load_tokenizer, tokenize_sequences
 from model import load_model, setup_optimizer
 from train import train_model
 from evaluation import evaluate_model
 from hyperparameter_tuning import hyperparameter_grid
 import pandas as pd
-import torch.optim as optim
 import wandb
-from positional_embeddings import swap_mha_rope
+from evo import Evo
 
 # Initialize WandB project
 wandb.init(project='Evo_Finetuning')
 
 def main():
-    model_name = 'togethercomputer/evo-1-131k-base'
+    model_name = 'evo-1-131k-base'
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     # Load the training and test data
@@ -28,7 +26,7 @@ def main():
     except Exception as e:
         raise RuntimeError(f"Error loading data: {e}")
 
-    # Check that the sequences and percentages are correctly loaded
+    # Validate data loading
     if not train_sequences or not train_percentages:
         raise ValueError("Training sequences or percentages are empty.")
     if not test_sequences or not test_percentages:
@@ -44,11 +42,9 @@ def main():
         train_encodings = tokenize_sequences(tokenizer, train_sequences)
         test_encodings = tokenize_sequences(tokenizer, test_sequences)
 
-        # Extract input_ids from the encodings
+        # Extract input_ids from the encodings and convert percentages
         train_sequences = train_encodings['input_ids'].to(device)
         test_sequences = test_encodings['input_ids'].to(device)
-
-        # Convert percentages to tensors
         train_percentages = torch.tensor(train_percentages, dtype=torch.float32).unsqueeze(1).to(device)
         test_percentages = torch.tensor(test_percentages, dtype=torch.float32).unsqueeze(1).to(device)
         
@@ -60,10 +56,8 @@ def main():
         print(f"Training with params: {params}")
         try:
             print('Model Name:', model_name)
-            model = load_model(model_name, device=device)
-            print("Model Parameters:", model.parameters())
-            print(params['learning_rate'])
-            optimizer = optim.Adam(model.parameters(), lr=params['learning_rate'])
+            model = load_model(model_name, device=device)  # Load Evo model here
+            optimizer = setup_optimizer(model, learning_rate=params['learning_rate'])  # Using setup_optimizer for consistency
         except Exception as e:
             raise RuntimeError(f"Error initializing model or optimizer: {e}")
 
