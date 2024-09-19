@@ -3,9 +3,18 @@ import torch
 from flash_attn.modules.mha import MHA
 from positional_embeddings import swap_mha_rope
 
+
+
 def load_model(model_name, revision="1.1_fix", device='cuda'):
+    try:
+        from positional_embeddings import swap_mha_rope
+        print("swap_mha_rope imported successfully.")
+    except ImportError as e:
+        print(f"Import failed: {e}")
+        
     model_config = AutoConfig.from_pretrained(model_name, trust_remote_code=True, revision=revision)
     model_config.use_cache = True
+    # Ensure you load the model properly, and use the swap_mha_rope as necessary
     model = AutoModelForCausalLM.from_pretrained(
         model_name,
         config=model_config,
