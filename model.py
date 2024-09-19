@@ -2,7 +2,7 @@ from transformers import AutoConfig, AutoModelForCausalLM, AdamW
 import torch
 from flash_attn.modules.mha import MHA
 from positional_embeddings import swap_mha_rope
-from evo import Evo
+from evo.evo.models import Evo
 
 
 

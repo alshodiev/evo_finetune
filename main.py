@@ -6,7 +6,7 @@ from evaluation import evaluate_model
 from hyperparameter_tuning import hyperparameter_grid
 import pandas as pd
 import wandb
-from evo import Evo
+from evo.evo.models import Evo
 
 # Initialize WandB project
 wandb.init(project='Evo_Finetuning')
