@@ -15,7 +15,6 @@ source ~/miniconda3/etc/profile.d/conda.sh
 conda activate myenv
 
 # Set the WANDB_API_KEY environment variable
-export WANDB_API_KEY=ff9c98ae599240e81f8e14040bddbfd653c28887
 
 # Load necessary modules (modify based on your environment)
 #module load cuda/11.8
